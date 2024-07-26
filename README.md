@@ -1,25 +1,18 @@
-# Cricket Website
-
-This is a demo website showing how to use Cricket HCMS to create a website. This website is created using SvelteKit.
-
-Below are the default instructions from SvelteKit to build and run the website in development mode. These instructions are not enough to run the website as it requires a backend server to be running. The backend server is a Cricket HCMS server. You can find the backend server code in the following repository as well as instructions to run both the backend and frontend servers:
-
-[Cricket HCMS](https://github.com/gskrupa/cricket-hcms)
-
-## Oryginal SvelteKit README starts here
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+# Cricket website template
 
 ## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+Clone the template from GitHub:
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+git clone "https://github.com/gskorupa/cricket-website-template.git" my-website
+```
 
-# create a new project in my-app
-npm create svelte@latest my-app
+Install the dependencies:
+```bash
+cd my-website
+npm install
+npm install --save-dev @sveltejs/adapter-node
 ```
 
 ## Developing
@@ -44,3 +37,16 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+Building Docker Image
+```bash
+docker build --rm -f "Dockerfile" -t gskorupa/signomix-docs-website:latest "."
+docker push gskorupa/signomix-docs-website:latest "."
+```
+```
+
+Running Docker Image
+```bash
+docker run -p 8080:3000 mywebsite:latest
+
+```
