@@ -1,5 +1,8 @@
 # Cricket website template
 
+This is an example of a website using the [Cricket HCMS service](https://github.com/gskorupa/cricket-hcms.git). The website was built using the Svelte framework and is hosted by a Node.js server. The website code is deliberately simple to focus on integration with the Cricket HCMS service.
+The site is set up as part of a demo for the Cricket HCMS project - refer to its documentation for details.
+
 ## Creating a project
 
 Clone the template from GitHub:
