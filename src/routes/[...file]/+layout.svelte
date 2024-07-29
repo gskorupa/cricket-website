@@ -35,7 +35,7 @@
 
     function notBinary(data) {
         try {
-            console.log('notBinary():', data)
+            //console.log('notBinary():', data)
             return !data.documents[0].binaryFile
         } catch (e) {
             console.error(e)
@@ -52,7 +52,7 @@
             let decoded = atob(data.documents[0].binaryContent)
             //let blob = new Blob([my_uint8_array], { type: data.documents[0].contentType });
             let blob = new Blob([decoded], { type: data.documents[0].contentType });
-            console.log(blob);
+            //console.log(blob);
             let myUrl = window.URL.createObjectURL(blob)
             const link = document.createElement("a");
             link.href = myUrl;
