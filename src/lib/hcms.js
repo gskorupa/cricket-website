@@ -12,7 +12,7 @@ export const hcms = {
      * @returns {object} - documents
      */
     getDocuments: async function (devMode, serviceUrl, pathObject, rootFolder, indexFileName) {
-        console.log("hcms.getDocuments: devMode=" + devMode +" serviceUrl=" + serviceUrl)
+        //console.log("hcms.getDocuments: devMode=" + devMode +" serviceUrl=" + serviceUrl)
         if (devMode) {
             let docs = [
                 { content: "<b>test</b> doc", path: "/doc1" },

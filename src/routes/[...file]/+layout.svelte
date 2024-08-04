@@ -27,7 +27,7 @@
 {getFile(data)}
 {/if}
 {:catch error}
-{error.message}
+Error: {error.message}
 {/await}
 <script>
     import { browser } from '$app/environment';
@@ -35,11 +35,10 @@
 
     function notBinary(data) {
         try {
-            //console.log('notBinary():', data)
             return !data.documents[0].binaryFile
         } catch (e) {
-            console.error(e)
-            return false
+            //console.error(e)
+            return true
         }
         return true
     }

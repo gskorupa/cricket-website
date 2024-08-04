@@ -1,4 +1,3 @@
-
 <svelte:head>
     {#await data then result}
     <title>{getDocumentTitle(result.documents[0])}</title>
@@ -52,21 +51,17 @@
         }
         return result;
     }
-    /*     function logPaths(data){
-            console.log('logPaths',data.paths)
-            return ''
-        } */
 
     function getDocumentTitle(document) {
-        let result = document.name
-        console.log('getDocumentTitle', document)
+        let result = "Cricket HCMS demo"
+        //console.log('getDocumentTitle', document)
         try{
             result = document.metadata.title
             if(result==null || result==undefined || result=='' || result=='undefined'){
-                result = document.name
+                result = "Cricket HCMS demo"
             }
         }catch(e){
-            console.log('getDocumentTitle',e)
+            //console.log('getDocumentTitle',e)
         }
         return result
     }
@@ -76,7 +71,7 @@
         try{
             result = document.metadata.description
         }catch(e){
-            console.log('getDocumentDescription',e)
+            //console.log('getDocumentDescription',e)
         }
         return result
     }
