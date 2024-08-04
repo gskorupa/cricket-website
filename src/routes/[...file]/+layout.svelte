@@ -45,12 +45,10 @@
     }
     function getFile(data) {
         try {
-            //let my_uint8_array = Uint8Array.from(atob(data.documents[0].binaryContent), c => c.charCodeAt(0));
             let my_uint8_array = new Uint8Array(atob(data.documents[0].binaryContent).split("").map(function (c) {
                 return c.charCodeAt(0);
             }));
             let decoded = atob(data.documents[0].binaryContent)
-            //let blob = new Blob([my_uint8_array], { type: data.documents[0].contentType });
             let blob = new Blob([decoded], { type: data.documents[0].contentType });
             //console.log(blob);
             let myUrl = window.URL.createObjectURL(blob)

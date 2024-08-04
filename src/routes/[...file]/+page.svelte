@@ -1,3 +1,10 @@
+
+<svelte:head>
+    {#await data then result}
+    <title>{getDocumentTitle(result.documents[0])}</title>
+    <meta name="description" content="{getDocumentDescription(result.documents[0])}" />
+    {/await}
+</svelte:head>
 <div class="row container-fluid">
     <div class="col mb-2">
         {#await data}
@@ -19,7 +26,8 @@
                 {#await data}
                 ...
                 {:then result}
-                {#if result!=undefined && result!=null && result.documents!=null && result.documents!=undefined && result.documents.length>0}
+                {#if result!=undefined && result!=null && result.documents!=null && result.documents!=undefined &&
+                result.documents.length>0}
                 {@html result.documents[0].content}
                 {:else}
                 <h1>404</h1>
@@ -33,17 +41,43 @@
     </div>
 </div>
 <script>
-    import { PUBLIC_HCMS_INDEX } from '$env/static/public';
+    import { env } from '$env/dynamic/public';
     export let data
-    function getTargetPath(path){
+    function getTargetPath(path) {
         let result = path
-        if(path==null || path==undefined || path=='' || path=='/'){
-            result = '/'+PUBLIC_HCMS_INDEX;
-        }else if(!(path.endsWith('.md') || path.endsWith('.html'))){
-            result = path+'/'+PUBLIC_HCMS_INDEX
+        if (path == null || path == undefined || path == '' || path == '/') {
+            result = '/';
+        } else if (!(path.endsWith('.md') || path.endsWith('.html'))) {
+            result = path + '/' + env.PUBLIC_HCMS_INDEX
         }
-        //console.log('index file',PUBLIC_HCMS_INDEX)
-        //console.log('getTargetPath',result)
         return result;
+    }
+    /*     function logPaths(data){
+            console.log('logPaths',data.paths)
+            return ''
+        } */
+
+    function getDocumentTitle(document) {
+        let result = document.name
+        console.log('getDocumentTitle', document)
+        try{
+            result = document.metadata.title
+            if(result==null || result==undefined || result=='' || result=='undefined'){
+                result = document.name
+            }
+        }catch(e){
+            console.log('getDocumentTitle',e)
+        }
+        return result
+    }
+
+    function getDocumentDescription(document) {
+        let result = ""
+        try{
+            result = document.metadata.description
+        }catch(e){
+            console.log('getDocumentDescription',e)
+        }
+        return result
     }
 </script>
