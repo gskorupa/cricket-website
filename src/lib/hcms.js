@@ -108,7 +108,7 @@ export const hcms = {
 }
 
 const getHcmsDocument = async function (devMode, serviceUrl, path, indexFile, token, type) {
-    console.log("hcms.getDocument: devMode=" + devMode +" serviceUrl=" + serviceUrl)
+    //console.log("hcms.getDocument: devMode=" + devMode +" serviceUrl=" + serviceUrl)
     if (devMode) {
         if (type != undefined && type == "navigation") {
             return {
