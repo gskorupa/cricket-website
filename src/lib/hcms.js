@@ -134,12 +134,13 @@ const getHcmsDocument = async function (devMode, serviceUrl, path, indexFile, to
             headers.set('Authentication', token);
         }
         let endpoint;
+        console.log("path:", path)
         if (typeof path === 'string' || path instanceof String) {
             //console.log("path is a string")
-            endpoint = serviceUrl + "/api/document?path=" + path
+            endpoint = serviceUrl + "/api/document?name=" + path
         } else {
             //console.log("path is an object")
-            endpoint = serviceUrl + "/api/document?path=/" + path.params.file
+            endpoint = serviceUrl + "/api/document?name=/" + path.file
         }
         if (!(endpoint.endsWith(".md") || endpoint.endsWith(".html") || endpoint.endsWith(".json"))) {
             endpoint = endpoint + "/" + indexFile
@@ -151,10 +152,10 @@ const getHcmsDocument = async function (devMode, serviceUrl, path, indexFile, to
             headers: headers
         });
         let data;
-        //console.log("res:", res.type)
+        console.log("res:", res)
         //console.log("res:", res.status)
         if (res.status == 200) {
-            if(type.toLowerCase() !== "file") {
+            if(res.type.toLowerCase() !== "file") {
                 return await res.json();
             }else{
                 data = { content: "binary content" }

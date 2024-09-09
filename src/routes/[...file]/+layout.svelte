@@ -31,11 +31,13 @@ Error: {error.message}
 {/await}
 <script>
     import { browser } from '$app/environment';
+    import { env } from '$env/dynamic/public';
+
     export let data
 
     function notBinary(data) {
         try {
-            return !data.documents[0].binaryFile
+            return !data.binaryFile
         } catch (e) {
             //console.error(e)
             return true
@@ -44,16 +46,16 @@ Error: {error.message}
     }
     function getFile(data) {
         try {
-            let my_uint8_array = new Uint8Array(atob(data.documents[0].binaryContent).split("").map(function (c) {
+            let my_uint8_array = new Uint8Array(atob(data.binaryContent).split("").map(function (c) {
                 return c.charCodeAt(0);
             }));
-            let decoded = atob(data.documents[0].binaryContent)
-            let blob = new Blob([decoded], { type: data.documents[0].contentType });
+            let decoded = atob(data.binaryContent)
+            let blob = new Blob([decoded], { type: data.contentType });
             //console.log(blob);
             let myUrl = window.URL.createObjectURL(blob)
             const link = document.createElement("a");
             link.href = myUrl;
-            link.download = data.documents[0].fileName;
+            link.download = data.fileName;
             document.body.appendChild(link);
             link.click();
             link.remove();

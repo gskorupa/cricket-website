@@ -1,20 +1,17 @@
 <svelte:head>
     {#await data then result}
-    <title>{getDocumentTitle(result.documents[0])}</title>
-    <meta name="description" content="{getDocumentDescription(result.documents[0])}" />
+    <title>{getDocumentTitle(result)}</title>
+    <meta name="description" content="{getDocumentDescription(result)}" />
     {/await}
 </svelte:head>
 <div class="row container-fluid">
     <div class="col mb-2">
+        {#if env.PUBLIC_HCMS_LANGUAGES!=undefined && env.PUBLIC_HCMS_LANGUAGES!=null && env.PUBLIC_HCMS_LANGUAGES!=''}<Languages def={env.PUBLIC_HCMS_LANGUAGES}></Languages>&nbsp;|&nbsp;{/if}
         {#await data}
         ...
         {:then data}
         <!-- breadcrumbs -->
-        {#if data.paths!=undefined && data.paths!=null && data.paths.length>0}
-        {#each data.paths as pathelem, index}
-        <a href={getTargetPath(pathelem.path)}>{pathelem.name==''?'home':pathelem.name}</a> {data.paths.length-1>index?' / ':''}
-        {/each}
-        {/if}
+        <Breadcrumbs def={ getDocumentPaths(data) }> </Breadcrumbs>
         {/await}
     </div>
 </div>
@@ -25,9 +22,8 @@
                 {#await data}
                 ...
                 {:then result}
-                {#if result!=undefined && result!=null && result.documents!=null && result.documents!=undefined &&
-                result.documents.length>0}
-                {@html result.documents[0].content}
+                {#if result!=undefined && result!=null}
+                {@html result.content}
                 {:else}
                 <h1>404</h1>
                 <p>Page not found.</p>
@@ -41,6 +37,8 @@
 </div>
 <script>
     import { env } from '$env/dynamic/public';
+    import Breadcrumbs from "$lib/Breadcrumbs.svelte";
+    import Languages from "$lib/Languages.svelte";
     export let data
     function getTargetPath(path) {
         let result = path
@@ -74,5 +72,46 @@
             //console.log('getDocumentDescription',e)
         }
         return result
+    }
+    function getDocumentPaths(document) {
+        let paths = []
+        let names = []
+        let multilanguage = env.PUBLIC_HCMS_LANGUAGES!=undefined && env.PUBLIC_HCMS_LANGUAGES!=null && env.PUBLIC_HCMS_LANGUAGES.length>0
+        try{
+            let pathNames = document.name.split('/')
+            let start=0
+            if(multilanguage){
+                start=2
+            }else{
+                start=2
+                paths.push('/'+env.PUBLIC_HCMS_INDEX)
+            }
+            for(let i=start;i<pathNames.length;i++){
+                let pathName = pathNames[i] 
+                let path = ''
+                for(let j=start;j<=i;j++){
+                    path += '/'+pathNames[j]
+                }
+                if(path.indexOf('.', path.lastIndexOf('/'))<0){
+                    path = path + '/'+env.PUBLIC_HCMS_INDEX
+                }
+                paths.push(path)
+                if(i==start){
+                    names.push('home')
+                }else{
+                    names.push(pathName)
+                }
+            }
+            if(paths.length>1 && paths[paths.length-1]==paths[paths.length-2]){
+                //remove last element
+                paths.pop()
+                names.pop()
+            }
+            console.log('getDocumentPaths paths',paths)
+            console.log('getDocumentPaths names',names)
+        }catch(e){
+            //console.log('getDocumentPaths',e)
+        }
+        return {paths:paths,names:names}
     }
 </script>
