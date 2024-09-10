@@ -103,7 +103,52 @@ export const hcms = {
         } catch (e) {
             throw new Error(e);
         }
+    },
+    getDocumentPaths: function(document, languages, indexFile) {
+        let paths = []
+        let names = []
+        let languageNames = []
+        let multilanguage = languages!=undefined && languages!=null && languages.length>0
+        try{
+            let pathNames = document.name.split('/')
+            let start=0
+            if(multilanguage){
+                start=2
+                languageNames=languages.split(',')
+            }else{
+                start=2
+                paths.push('/'+indexFile)
+                names.push('home')
+            }
+            for(let i=start;i<pathNames.length;i++){
+                let pathName = pathNames[i] 
+                let path = ''
+                for(let j=start;j<=i;j++){
+                    path += '/'+pathNames[j]
+                }
+                if(path.indexOf('.', path.lastIndexOf('/'))<0){
+                    path = path + '/'+indexFile
+                }
+                paths.push(path)
+                if(languageNames.includes(pathName)){
+                    names.push('home')
+                }else{
+                    names.push(pathName)
+                }
+            }
+            if(paths.length>1 && paths[paths.length-1]==paths[paths.length-2]){
+                //remove last element
+                paths.pop()
+                names.pop()
+            }
+            console.log('getDocumentPaths paths',paths)
+            console.log('getDocumentPaths names',names)
+        }catch(e){
+            //console.log('getDocumentPaths',e)
+        }
+        return {paths:paths,names:names}
     }
+
 
 }
 

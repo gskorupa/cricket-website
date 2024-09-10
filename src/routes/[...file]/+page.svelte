@@ -11,7 +11,7 @@
         ...
         {:then data}
         <!-- breadcrumbs -->
-        <Breadcrumbs def={ getDocumentPaths(data) }> </Breadcrumbs>
+        <Breadcrumbs def={ hcms.getDocumentPaths(data,env.PUBLIC_HCMS_LANGUAGES,env.PUBLIC_HCMS_INDEX) }> </Breadcrumbs>
         {/await}
     </div>
 </div>
@@ -39,6 +39,8 @@
     import { env } from '$env/dynamic/public';
     import Breadcrumbs from "$lib/Breadcrumbs.svelte";
     import Languages from "$lib/Languages.svelte";
+    import { hcms } from '$lib/hcms.js';
+
     export let data
     function getTargetPath(path) {
         let result = path
@@ -73,45 +75,5 @@
         }
         return result
     }
-    function getDocumentPaths(document) {
-        let paths = []
-        let names = []
-        let multilanguage = env.PUBLIC_HCMS_LANGUAGES!=undefined && env.PUBLIC_HCMS_LANGUAGES!=null && env.PUBLIC_HCMS_LANGUAGES.length>0
-        try{
-            let pathNames = document.name.split('/')
-            let start=0
-            if(multilanguage){
-                start=2
-            }else{
-                start=2
-                paths.push('/'+env.PUBLIC_HCMS_INDEX)
-            }
-            for(let i=start;i<pathNames.length;i++){
-                let pathName = pathNames[i] 
-                let path = ''
-                for(let j=start;j<=i;j++){
-                    path += '/'+pathNames[j]
-                }
-                if(path.indexOf('.', path.lastIndexOf('/'))<0){
-                    path = path + '/'+env.PUBLIC_HCMS_INDEX
-                }
-                paths.push(path)
-                if(i==start){
-                    names.push('home')
-                }else{
-                    names.push(pathName)
-                }
-            }
-            if(paths.length>1 && paths[paths.length-1]==paths[paths.length-2]){
-                //remove last element
-                paths.pop()
-                names.pop()
-            }
-            console.log('getDocumentPaths paths',paths)
-            console.log('getDocumentPaths names',names)
-        }catch(e){
-            //console.log('getDocumentPaths',e)
-        }
-        return {paths:paths,names:names}
-    }
+    
 </script>

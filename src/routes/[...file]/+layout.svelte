@@ -2,10 +2,12 @@
 {:then data}
 {#if notBinary(data)}
 <div class="container-flex">
-    <nav class="navbar h2" style="background-color: #1849cf;">
+    <!--<nav class="navbar h2" style="background-color: #1849cf;">-->
+    <nav class="navbar h2" style="background-color: rgb(123, 63, 0);">
         <a class="navbar-brand ms-2" href="#">
             <img src="/cricket-logo-no-text-white.svg" alt="Logo" height="36" class="d-inline-block my-auto me-2">
             <span class="h3 my-auto" style="color: rgb(247, 247, 247);">Cricket website demo</span>
+            <!--<span class="h3 my-auto" style="color: rgb(123, 63, 0);">Cricket website demo</span>-->
         </a>
     </nav>
 </div>
